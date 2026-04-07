@@ -22,7 +22,12 @@ import {
 
 const firebaseApp = initializeApp({
   projectId: 'taller1-21d4b',
+  appId: '1:477370730968:web:52b5cad9c2859bd0c80aad',
   databaseURL: 'https://taller1-21d4b-default-rtdb.firebaseio.com',
+  storageBucket: 'taller1-21d4b.firebasestorage.app',
+  apiKey: 'AIzaSyCqVrKDpjYGyMrnO6AiKg6eS9gbEk2xbxc',
+  authDomain: 'taller1-21d4b.firebaseapp.com',
+  messagingSenderId: '477370730968',
 });
 
 const database = getDatabase(firebaseApp);
