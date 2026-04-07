@@ -61,7 +61,6 @@ export const Lobby: React.FC<LobbyProps> = ({ onJoin, connectedCount, isConnecte
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isConnected) return;
     if (name.trim() && name.length <= 16) {
       onJoin(name.trim(), AVATARS[avatarIndex].id);
     }
@@ -211,10 +210,9 @@ export const Lobby: React.FC<LobbyProps> = ({ onJoin, connectedCount, isConnecte
 
           <button
             type="submit"
-            disabled={!isConnected}
             className="w-full bg-jade-600 hover:bg-jade-500 text-white font-black py-5 rounded-2xl transition-all shadow-[0_0_30px_rgba(22,163,74,0.3)] hover:shadow-[0_0_40px_rgba(22,163,74,0.5)] active:scale-[0.98] uppercase tracking-[0.3em]"
           >
-            {isConnected ? 'Initialize Session' : 'Firebase Offline'}
+            {isConnected ? 'Initialize Session' : 'Initialize Session'}
           </button>
 
           {!isConnected && (

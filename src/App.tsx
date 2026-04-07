@@ -15,6 +15,7 @@ import {
   subscribeToRoom,
   type RoomData,
 } from './services/firebaseGame';
+import { createInitialRoom, withPlayerJoined } from './services/gameEngine';
 
 interface SavedPlayer {
   id: string;
@@ -142,6 +143,11 @@ export default function App() {
     setPlayerName(trimmedName);
     setPlayerAvatar(avatar);
 
+    setRoomData((currentRoom) => {
+      const nextRoom = currentRoom ?? createInitialRoom();
+      return withPlayerJoined(nextRoom, playerId, trimmedName, avatar);
+    });
+
     await joinRoom({
       playerId,
       name: trimmedName,
@@ -169,22 +175,11 @@ export default function App() {
     void resetRoom();
   };
 
-  if (!roomData) {
-    return (
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center p-6 text-jade-100">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 rounded-full border-2 border-jade-500 border-t-transparent animate-spin mx-auto" />
-          <p className="text-xs font-black uppercase tracking-[0.4em] text-jade-400">Connecting to Firebase...</p>
-        </div>
-      </div>
-    );
-  }
-
   if (!playerName || !gameState) {
     return (
       <Lobby
         onJoin={handleJoin}
-        connectedCount={(Object.values(roomData.players) as Player[]).filter((player) => player.isConnected).length}
+        connectedCount={roomData ? (Object.values(roomData.players) as Player[]).filter((player) => player.isConnected).length : 0}
         isConnected={isConnected}
       />
     );
