@@ -39,6 +39,7 @@ const PowerUpIcon: React.FC<{ type: PowerUpType }> = ({ type }) => {
 export const Tile: React.FC<TileProps> = React.memo(({ tile, currentPlayerId, onClick, isMismatch, index = 0 }) => {
   const isLockedByMe = tile.lockedBy === currentPlayerId;
   const isLockedByOthers = tile.lockedBy !== null && !isLockedByMe;
+  // Las cartas deben mostrarse volteadas si están isFlipped O si están matched
   const isFlipped = tile.isFlipped || tile.isMatched;
   
   useEffect(() => {
@@ -57,9 +58,11 @@ export const Tile: React.FC<TileProps> = React.memo(({ tile, currentPlayerId, on
   }, [isMismatch]);
 
   const handleClick = () => {
-    if (!tile.isMatched && !isLockedByOthers) {
-      onClick(tile.id);
+    // No permitir clicks en cartas matched o locked por otros jugadores
+    if (tile.isMatched || isLockedByOthers) {
+      return;
     }
+    onClick(tile.id);
   };
 
   return (

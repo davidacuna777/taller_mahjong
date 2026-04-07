@@ -95,11 +95,8 @@ export const Board: React.FC<BoardProps> = React.memo(({
   }, [tiles, currentPlayerId, createExplosion]);
 
   // Wrap tile click to potentially trigger effects
-  const handleTileClick = (id: string, e: React.MouseEvent) => {
+  const handleTileClick = (id: string) => {
     onTileClick(id);
-    // If it was a match, we'd ideally trigger explosion here
-    // For mock purposes, let's trigger a small explosion on every click
-    // createExplosion(e.clientX, e.clientY);
   };
 
   return (
@@ -114,7 +111,7 @@ export const Board: React.FC<BoardProps> = React.memo(({
             key={tile.id} 
             tile={tile} 
             currentPlayerId={currentPlayerId} 
-            onClick={(id) => onTileClick(id)} 
+            onClick={handleTileClick} 
             isMismatch={mismatchedIds.includes(tile.id)}
             index={index}
           />

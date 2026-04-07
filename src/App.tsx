@@ -156,17 +156,24 @@ export default function App() {
   };
 
   const handleTileClick = async (id: string) => {
+    // Limpiar cualquier timer existente antes de hacer una nueva selección
+    if (mismatchTimerRef.current !== null) {
+      window.clearTimeout(mismatchTimerRef.current);
+      mismatchTimerRef.current = null;
+    }
+
     const result = await selectTile(playerId, id);
 
+    // Si hay un mismatch, configurar timer para voltear las cartas de vuelta
     if (result.mismatchTileIds.length === 2) {
-      if (mismatchTimerRef.current !== null) {
-        window.clearTimeout(mismatchTimerRef.current);
-      }
-
       mismatchTimerRef.current = window.setTimeout(() => {
         void clearMismatch(playerId, result.mismatchTileIds);
+        mismatchTimerRef.current = null;
       }, 1000);
     }
+
+    // Si fue un match exitoso, no incrementar el streak aquí
+    // ya que se maneja en el useEffect de gameState
   };
 
   const handleSendReaction = () => {};

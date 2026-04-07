@@ -52,11 +52,18 @@ export const subscribeToRoom = (
   onConnectionChange: (connected: boolean) => void,
 ): (() => void) => {
   const unsubscribeRoom = onValue(roomRef, (snapshot) => {
-    onRoomChange(normalizeRoom(snapshot.val()));
+    const roomData = normalizeRoom(snapshot.val());
+    onRoomChange(roomData);
+  }, (error) => {
+    console.error('Error subscribing to room:', error);
+    onRoomChange(null);
   });
 
   const unsubscribeConnection = onValue(connectionRef, (snapshot) => {
     onConnectionChange(Boolean(snapshot.val()));
+  }, (error) => {
+    console.error('Error checking connection:', error);
+    onConnectionChange(false);
   });
 
   return () => {
