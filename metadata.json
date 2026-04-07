@@ -1,0 +1,5 @@
+{
+  "name": "Mahjong Solitaire Live",
+  "description": "A production-ready multiplayer collaborative Mahjong Solitaire game with live scoring and real-time player tracking.",
+  "requestFramePermissions": []
+}
