@@ -3,19 +3,20 @@ export interface Tile {
   symbol: string;       // The emoji/symbol representing the tile
   isFlipped: boolean;   // Whether the tile is face-up (visible)
   isMatched: boolean;   // Whether it's been matched (removed from play)
-  lockedBy: string | null; // socket.id of player who selected it, or null
+  lockedBy: string | null; // playerId (UUID) of player who selected it, or null
 }
 
 export interface Player {
-  id: string;           // socket.id of the player
+  id: string;           // UUID playerId (distinct from socket.id)
   name: string;         // Name the player entered
   score: number;        // Accumulated score
   isConnected: boolean; // Whether currently connected
 }
 
 export interface ScoreSnapshot {
-  timestamp: number;            // Exact moment of the snapshot (Date.now())
-  scores: Record<string, number>; // { "playerName": score, ... }
+  timestamp: number;                  // Exact moment of the snapshot (Date.now())
+  scores: Record<string, number>;     // { playerId: score, ... }
+  nameMap: Record<string, string>;    // { playerId: playerName, ... }
 }
 
 export interface GameState {
