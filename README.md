@@ -50,6 +50,20 @@ npm run build
 ```
 The production-ready files will be in the `dist` directory.
 
+### Multiplayer in Firebase Hosting
+
+The game now uses Firebase Realtime Database directly, so Firebase Hosting is enough for multiplayer.
+
+1. Make sure the Realtime Database instance exists in the project.
+2. Build and sync static files for Firebase:
+   ```bash
+   npm run build:public
+   ```
+3. Deploy hosting:
+   ```bash
+   firebase deploy --only hosting
+   ```
+
 ## Game Logic
 
 - **Matching**: Flip two tiles with the same symbol to match them and score 100 points.
@@ -59,11 +73,11 @@ The production-ready files will be in the `dist` directory.
 
 ## Project Structure
 
-- `server.ts`: Backend entry point, handles Socket.io connections and game logic.
-- `src/App.tsx`: Main frontend component, manages socket connection and routing.
+- `server.ts`: Legacy local multiplayer server kept for reference.
+- `src/App.tsx`: Main frontend component, manages Firebase Realtime Database multiplayer and routing.
 - `src/components/`: Reusable React components (Board, Tile, Scoreboard, LiveChart, etc.).
+- `src/services/`: Utility services for Firebase and sound.
 - `src/types.ts`: Global TypeScript interfaces and types.
-- `src/services/`: Utility services (Sound, etc.).
 
 ## License
 

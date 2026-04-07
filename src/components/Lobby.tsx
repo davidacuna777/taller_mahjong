@@ -27,6 +27,8 @@ interface LobbyProps {
   onJoin: (name: string, avatar: string) => void;
   /** Number of players currently connected */
   connectedCount: number;
+  /** Whether this client is connected to the multiplayer server */
+  isConnected: boolean;
 }
 
 const AVATARS = [
@@ -45,7 +47,7 @@ const AVATARS = [
 /**
  * Enhanced Lobby component with FIFA-style avatar selection and animated background.
  */
-export const Lobby: React.FC<LobbyProps> = ({ onJoin, connectedCount }) => {
+export const Lobby: React.FC<LobbyProps> = ({ onJoin, connectedCount, isConnected }) => {
   const [name, setName] = useState('');
   const [avatarIndex, setAvatarIndex] = useState(0);
 
@@ -59,6 +61,7 @@ export const Lobby: React.FC<LobbyProps> = ({ onJoin, connectedCount }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isConnected) return;
     if (name.trim() && name.length <= 16) {
       onJoin(name.trim(), AVATARS[avatarIndex].id);
     }
@@ -208,10 +211,17 @@ export const Lobby: React.FC<LobbyProps> = ({ onJoin, connectedCount }) => {
 
           <button
             type="submit"
+            disabled={!isConnected}
             className="w-full bg-jade-600 hover:bg-jade-500 text-white font-black py-5 rounded-2xl transition-all shadow-[0_0_30px_rgba(22,163,74,0.3)] hover:shadow-[0_0_40px_rgba(22,163,74,0.5)] active:scale-[0.98] uppercase tracking-[0.3em]"
           >
-            Initialize Session
+            {isConnected ? 'Initialize Session' : 'Firebase Offline'}
           </button>
+
+          {!isConnected && (
+            <p className="text-center text-xs font-bold text-amber-400 tracking-wide uppercase">
+              No hay conexion a Firebase Realtime Database.
+            </p>
+          )}
         </form>
 
         <div className="mt-10 flex items-center justify-center gap-6">
